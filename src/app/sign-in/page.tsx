@@ -59,6 +59,9 @@ const SignInPage = () => {
         ></TextField.Root>
         <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button disabled={isSubmit}>Sign In {isSubmit && <Spinner />}</Button>
+        <Button onClick={() => signIn("google")}>
+          google sign In {isSubmit && <Spinner />}
+        </Button>
       </form>
     </div>
   );

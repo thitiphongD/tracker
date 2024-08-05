@@ -1,5 +1,6 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -34,6 +35,18 @@ declare module "next-auth/jwt" {
 
 export const authOptions: AuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: `${profile.given_name} ${profile.family_name}`,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -78,8 +91,12 @@ export const authOptions: AuthOptions = {
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.image = token.picture;
       }
       return session;
+    },
+    async redirect({ baseUrl }) {
+      return `${baseUrl}/profile`;
     },
   },
 };
