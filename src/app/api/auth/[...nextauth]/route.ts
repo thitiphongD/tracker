@@ -13,6 +13,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role?: string | unknown;
     };
   }
 
@@ -21,6 +22,7 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
+    role?: string | null;
   }
 }
 
@@ -52,6 +54,7 @@ export const authOptions: AuthOptions = {
             id: user.id.toString(),
             name: user.name,
             email: user.email,
+            role: user.role,
           };
         } else {
           throw new Error("Invalid email or password");
@@ -67,12 +70,14 @@ export const authOptions: AuthOptions = {
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (session.user) {
         session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },
