@@ -7,8 +7,7 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  const { pathname } = request.nextUrl;
-  if (pathname.startsWith("/protected") && (!user || user.role !== "admin")) {
+  if (!user) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
