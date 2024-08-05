@@ -7,24 +7,39 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Button, TextField, Spinner } from "@radix-ui/themes";
 import ErrorMessage from "../components/ErrorMessage";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-type IssueForm = z.infer<typeof loginUserSchema>;
+type SignInForm = z.infer<typeof loginUserSchema>;
 
 const SignInPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IssueForm>({
+  } = useForm<SignInForm>({
     resolver: zodResolver(loginUserSchema),
   });
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+    const email = data.email;
+    const password = data.password;
     try {
       setIsSubmit(true);
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      if (result?.error) {
+        console.error("error", result?.error);
+        setIsSubmit(false);
+        return false;
+      }
+      router.push("/profile");
     } catch (error) {
       setIsSubmit(false);
     }
