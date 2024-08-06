@@ -65,22 +65,21 @@ const SignUpPage = () => {
           {...register("email")}
           onChange={handleInputChange}
         />
-        {/* <TextField.Root
-          placeholder="Email"
-          {...register("email")}
-          onChange={handleInputChange}
-        ></TextField.Root> */}
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        <TextField.Root
+        <input
+          type="text"
           placeholder="Password"
           {...register("password")}
-        ></TextField.Root>
+          onChange={handleInputChange}
+        />
         <ErrorMessage>{errors.password?.message}</ErrorMessage>
-        <TextField.Root
+        <input
+          type="text"
           placeholder="Confirm Password"
           {...register("confirmPassword")}
-        ></TextField.Root>
+          onChange={handleInputChange}
+        />
         <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
         <Button disabled={isSubmit}>Sign Up {isSubmit && <Spinner />}</Button>
       </form>

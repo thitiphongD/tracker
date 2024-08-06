@@ -9,6 +9,7 @@ import { Button, TextField, Spinner } from "@radix-ui/themes";
 import ErrorMessage from "../../components/ErrorMessage";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import AuthFormInput from "@/app/components/AuthFormInput";
 
 type SignInForm = z.infer<typeof loginUserSchema>;
 
@@ -48,16 +49,26 @@ const SignInPage = () => {
   return (
     <div className="max-w-xl">
       <form className="space-y-3" onSubmit={onSubmit}>
-        <TextField.Root
+        <AuthFormInput
+          type="text"
+          id="email"
+          name="email"
+          register={register}
+          label="Email"
           placeholder="Email"
-          {...register("email")}
-        ></TextField.Root>
-        <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        <TextField.Root
+          key="Email"
+          errors={errors}
+        />
+        <AuthFormInput
+          type="text"
+          id="password"
+          name="password"
+          register={register}
+          label="Password"
           placeholder="Password"
-          {...register("password")}
-        ></TextField.Root>
-        <ErrorMessage>{errors.password?.message}</ErrorMessage>
+          key="password"
+          errors={errors}
+        />
         <Button disabled={isSubmit}>Sign In {isSubmit && <Spinner />}</Button>
         {/* <Button onClick={() => signIn("google")}>
           google sign In {isSubmit && <Spinner />}
