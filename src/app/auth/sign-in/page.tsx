@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { loginUserSchema } from "../validationSchema";
+import { loginUserSchema } from "../../validationSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Button, TextField, Spinner } from "@radix-ui/themes";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../../components/ErrorMessage";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 

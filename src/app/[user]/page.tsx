@@ -9,6 +9,8 @@ import { Box, Button } from "@radix-ui/themes";
 const UserPage = () => {
   const { data: session, status } = useSession();
 
+  console.log(session);
+
   const router = useRouter();
 
   useEffect(() => {
