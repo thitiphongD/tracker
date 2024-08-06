@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { Button } from "@radix-ui/themes";
+import { Box, Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -22,13 +22,26 @@ const ProfilePage = () => {
         <div>
           <p>hello {session?.user.email}</p>
           <div className="flex gap-2 items-center">
-            <Image
-              src={session?.user?.image || "/default-image.png"}
-              alt={`${session?.user?.name}'s profile picture`}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+            {session?.user?.image ? (
+              <Image
+                src={session?.user?.image || "/default-image.png"}
+                alt={`${session?.user?.name}'s profile picture`}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            ) : (
+              <Box
+                width="40px"
+                height="40px"
+                className="bg-gray-300 rounded-full flex items-center justify-center"
+              >
+                {session?.user?.name
+                  ? session?.user?.name[0].toUpperCase()
+                  : ""}
+              </Box>
+            )}
+
             <span>{session?.user?.name}</span>
           </div>
           <Button
