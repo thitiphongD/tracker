@@ -59,11 +59,17 @@ const SignUpPage = () => {
   return (
     <div className="max-w-xl">
       <form className="space-y-3" onSubmit={onSubmit}>
-        <TextField.Root
+        <input
+          type="text"
           placeholder="Email"
           {...register("email")}
           onChange={handleInputChange}
-        ></TextField.Root>
+        />
+        {/* <TextField.Root
+          placeholder="Email"
+          {...register("email")}
+          onChange={handleInputChange}
+        ></TextField.Root> */}
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
         <TextField.Root

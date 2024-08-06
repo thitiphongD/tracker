@@ -11,3 +11,7 @@ body {
     text-wrap: balance;
   }
 }
+
+input {
+  @apply border px-2 py-1 rounded-sm outline-none text-sm;
+}
