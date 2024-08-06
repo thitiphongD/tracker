@@ -9,7 +9,6 @@ import { Button, TextField, Spinner } from "@radix-ui/themes";
 import ErrorMessage from "../../components/ErrorMessage";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import AuthFormInput from "@/app/components/AuthFormInput";
 
 type SignInForm = z.infer<typeof loginUserSchema>;
 
@@ -24,6 +23,7 @@ const SignInPage = () => {
   });
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const onSubmit = handleSubmit(async (data) => {
     const email = data.email;
@@ -46,29 +46,27 @@ const SignInPage = () => {
     }
   });
 
+  const handleInputChange = () => {
+    if (error) setError("");
+  };
+
   return (
     <div className="max-w-xl">
       <form className="space-y-3" onSubmit={onSubmit}>
-        <AuthFormInput
+        <input
           type="text"
-          id="email"
-          name="email"
-          register={register}
-          label="Email"
           placeholder="Email"
-          key="Email"
-          errors={errors}
+          {...register("email")}
+          onChange={handleInputChange}
         />
-        <AuthFormInput
+        <ErrorMessage>{errors.email?.message}</ErrorMessage>
+        <input
           type="text"
-          id="password"
-          name="password"
-          register={register}
-          label="Password"
           placeholder="Password"
-          key="password"
-          errors={errors}
+          {...register("password")}
+          onChange={handleInputChange}
         />
+        <ErrorMessage>{errors.password?.message}</ErrorMessage>
         <Button disabled={isSubmit}>Sign In {isSubmit && <Spinner />}</Button>
         {/* <Button onClick={() => signIn("google")}>
           google sign In {isSubmit && <Spinner />}
