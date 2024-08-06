@@ -19,22 +19,43 @@ const SignUpPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignUpForm>({
     resolver: zodResolver(signUpUserSchema),
   });
 
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const onSubmit = handleSubmit(async (data) => {
-    const email = data.email;
     try {
       setIsSubmit(true);
+      setError("");
       await axios.post("/api/auth/signUp", data);
-      router.push(`/${email}`);
+      reset();
+      router.push(`/auth/sign-in`);
     } catch (error) {
       setIsSubmit(false);
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.data.errors) {
+          const errorMessages = error.response.data.errors.map(
+            (err: any) => err.message
+          );
+          setError(errorMessages.join(", "));
+        } else if (error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   });
+
+  const handleInputChange = () => {
+    if (error) setError("");
+  };
 
   return (
     <div className="max-w-xl">
@@ -42,21 +63,21 @@ const SignUpPage = () => {
         <TextField.Root
           placeholder="Email"
           {...register("email")}
+          onChange={handleInputChange}
         ></TextField.Root>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
         <TextField.Root
           placeholder="Password"
           {...register("password")}
         ></TextField.Root>
         <ErrorMessage>{errors.password?.message}</ErrorMessage>
-
         <TextField.Root
           placeholder="Confirm Password"
           {...register("confirmPassword")}
         ></TextField.Root>
         <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
-
-        <Button>Sign Up</Button>
+        <Button disabled={isSubmit}>Sign Up {isSubmit && <Spinner />}</Button>
       </form>
     </div>
   );
