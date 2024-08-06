@@ -7,8 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Spinner, TextField } from "@radix-ui/themes";
 import ErrorMessage from "@/app/components/ErrorMessage";
-import axios, { AxiosError } from "axios";
-import { ErrorResponse } from "@/app/utils/ErrorResponse";
+import axios from "axios";
 
 type SignUpForm = z.infer<typeof signUpUserSchema>;
 
