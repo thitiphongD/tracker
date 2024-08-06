@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { Box, Button } from "@radix-ui/themes";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import Image from "next/image";
+import { Box, Button } from "@radix-ui/themes";
 
-const ProfilePage = () => {
+const UserPage = () => {
   const { data: session, status } = useSession();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -57,4 +58,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default UserPage;

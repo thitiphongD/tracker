@@ -39,7 +39,7 @@ const SignInPage = () => {
         setIsSubmit(false);
         return false;
       }
-      router.push("/profile");
+      router.push(`/${email}`);
     } catch (error) {
       setIsSubmit(false);
     }
