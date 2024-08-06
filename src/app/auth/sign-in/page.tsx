@@ -61,7 +61,7 @@ const SignInPage = () => {
         />
         <ErrorMessage>{errors.email?.message}</ErrorMessage>
         <input
-          type="text"
+          type="password"
           placeholder="Password"
           {...register("password")}
           onChange={handleInputChange}
